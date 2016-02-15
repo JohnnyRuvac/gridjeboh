@@ -4,6 +4,8 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 import browserSync from 'browser-sync';
 import del from 'del';
 import {stream as wiredep} from 'wiredep';
+import coffeeify from 'gulp-coffeeify';
+
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -19,14 +21,16 @@ gulp.task('styles', () => {
     }).on('error', $.sass.logError))
     .pipe($.autoprefixer({browsers: ['> 1%', 'last 2 versions', 'Firefox ESR']}))
     .pipe($.sourcemaps.write())
-    .pipe(gulp.dest('.tmp/styles'))
-    .pipe(reload({stream: true}));
+    .pipe(gulp.dest('.tmp/styles'));
+    // .pipe(reload({stream: true}));
 });
 
 gulp.task('scripts', () => {
-  return gulp.src('app/scripts/**/*.coffee')
-    .pipe($.coffee())
-    .pipe(gulp.dest('.tmp/scripts'));
+  console.log('kokot');
+  gulp.src('app/scripts/**/*.coffee')
+      .pipe(coffeeify())
+      .pipe(gulp.dest('.tmp/scripts'));
+
 });
 
 function lint(files, options) {
@@ -104,14 +108,13 @@ gulp.task('serve', ['styles', 'scripts', 'fonts'], () => {
 
   gulp.watch([
     'app/*.html',
-    'app/scripts/**/*.js',
     '.tmp/scripts/**/*.js',
     'app/images/**/*',
     '.tmp/fonts/**/*'
   ]).on('change', reload);
 
   gulp.watch('app/styles/**/*.scss', ['styles']);
-  gulp.watch('app/scripts/**/*.coffee');
+  gulp.watch('app/scripts/**/*.coffee', ['scripts']);
   gulp.watch('app/fonts/**/*', ['fonts']);
   gulp.watch('bower.json', ['wiredep', 'fonts']);
 });
