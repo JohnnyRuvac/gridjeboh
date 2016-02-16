@@ -1,6 +1,6 @@
 16.2.16:
-- event emitter
-- click position to shape calc
+  - click position to shape calc
+  - event emitter
 - local storage
 - refresh
 - draw only shapes, not whole grid

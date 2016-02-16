@@ -40,5 +40,8 @@
         "single"
       ]
     }
+  },
+  "dependencies": {
+    "eventemitter3": "^1.1.1"
   }
 }
