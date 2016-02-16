@@ -3,7 +3,7 @@ Helpers = require '../utils/Helpers'
 
 
 module.exports = class Triangle extends Shape
-  constructor: (@svg, @pos, @width, inverse) ->
+  constructor: (@svg, @pos, @width, @column, @row, inverse) ->
     super()
 
     # get shorter side length
@@ -32,4 +32,5 @@ module.exports = class Triangle extends Shape
     # Click
     @element.click () =>
       @element.toggleClass 'filled'
+      console.log @column + ', ' + @row + ' ' + inverse
 

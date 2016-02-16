@@ -2,7 +2,7 @@ Helpers = require './utils/Helpers'
 Triangle = require './Shapes/Triangle'
 
 
-RATIO = 1 / 10
+RATIO = 1 / 60
 
 
 ww = window.innerWidth
@@ -21,6 +21,9 @@ countX = 1 / RATIO + 1
 triangleHeight = Helpers.pytagoras( unit, unit / 2 )
 countY =  wh / triangleHeight + 1
 
+# countX = 1
+# countY = 1
+
 startTime = new Date()
 
 for i in [0...countY] by 1
@@ -35,7 +38,7 @@ for i in [0...countY] by 1
       pos.x -= unit / 2
 
     # draw triangle
-    triangle = new Triangle svg, pos, unit, false
+    triangle = new Triangle svg, pos, unit, j, i, false
 
     # position of inverse triangle
     pos2 = 
@@ -43,7 +46,7 @@ for i in [0...countY] by 1
       y: triangleHeight * i
 
     # draw inverse triangle
-    triangle = new Triangle svg, pos, unit, true
+    triangle = new Triangle svg, pos, unit, j, i, true
 
 
 

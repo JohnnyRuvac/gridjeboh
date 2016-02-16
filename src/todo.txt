@@ -1,0 +1,6 @@
+16.2.16:
+- event emitter
+- click position to shape calc
+- local storage
+- refresh
+- draw only shapes, not whole grid
