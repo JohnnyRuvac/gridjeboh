@@ -1,14 +1,19 @@
 Helpers = require './utils/Helpers'
 Triangle = require './Shapes/Triangle'
+EventEmitter = require '../../node_modules/eventemitter3'
+Storage = require './utils/Storage'
 
 
-RATIO = 1 / 60
+RATIO = 1 / 10
 
 
 ww = window.innerWidth
 wh = window.innerHeight
 unit = ww * RATIO
-console.log 'unit: ' + unit
+# console.log 'unit: ' + unit
+ee = new EventEmitter()
+
+storage = new Storage(ee)
 
 svg = Snap(ww, wh)
 
@@ -38,7 +43,7 @@ for i in [0...countY] by 1
       pos.x -= unit / 2
 
     # draw triangle
-    triangle = new Triangle svg, pos, unit, j, i, false
+    triangle = new Triangle ee, svg, pos, unit, j, i, 'normal'
 
     # position of inverse triangle
     pos2 = 
@@ -46,7 +51,7 @@ for i in [0...countY] by 1
       y: triangleHeight * i
 
     # draw inverse triangle
-    triangle = new Triangle svg, pos, unit, j, i, true
+    triangle = new Triangle ee, svg, pos, unit, j, i, 'inverse'
 
 
 
