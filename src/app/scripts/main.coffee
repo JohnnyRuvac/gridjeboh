@@ -1,12 +1,13 @@
+Helpers = require './utils/Helpers'
 Triangle = require './Shapes/Triangle'
 
 
-RATIO = 1 / 100
+RATIO = 1 / 75
 
 
 ww = window.innerWidth
 wh = window.innerHeight
-unit = ww * 1 / 100
+unit = ww * RATIO
 console.log 'unit: ' + unit
 
 svg = Snap(ww, wh)
@@ -16,15 +17,26 @@ pos =
   y: 0
 
 
-count = 1 / RATIO
-start = pos.x
-finish = @width * i
+countX = 1 / RATIO + 1
+triangleHeight = Helpers.pytagoras( unit, unit / 2 )
+countY =  wh / triangleHeight + 1
 
-for i in [0...count] by 1
-  pos = 
-    x: unit * i
-    y: 0
+startTime = new Date()
 
-  console.log 'pos.x: ' + pos.x
+for i in [0...countY] by 1
+  for j in [0...countX] by 1
 
-  triangle = new Triangle svg, pos, unit
+    pos = 
+      x: unit * j
+      y: triangleHeight * i
+
+    # offset even rows
+    if i % 2 is 0
+      pos.x -= unit / 2
+
+    # draw triangle
+    triangle = new Triangle svg, pos, unit
+
+endTime = new Date()
+took = endTime - startTime
+console.log 'drew ' + i * j + ' shapes, took: ' + took + 'ms'
