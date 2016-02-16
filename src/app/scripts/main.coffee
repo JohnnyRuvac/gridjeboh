@@ -2,7 +2,7 @@ Helpers = require './utils/Helpers'
 Triangle = require './Shapes/Triangle'
 
 
-RATIO = 1 / 75
+RATIO = 1 / 10
 
 
 ww = window.innerWidth
@@ -35,7 +35,17 @@ for i in [0...countY] by 1
       pos.x -= unit / 2
 
     # draw triangle
-    triangle = new Triangle svg, pos, unit
+    triangle = new Triangle svg, pos, unit, false
+
+    # position of inverse triangle
+    pos2 = 
+      x: unit / 2 * (j + 1)
+      y: triangleHeight * i
+
+    # draw inverse triangle
+    triangle = new Triangle svg, pos, unit, true
+
+
 
 endTime = new Date()
 took = endTime - startTime
