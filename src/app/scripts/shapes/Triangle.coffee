@@ -22,6 +22,5 @@ module.exports = class Triangle extends Shape
 
     # Click
     @element.click () =>
-      console.log @element
       @element.toggleClass 'filled'
 

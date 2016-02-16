@@ -1,9 +1,2 @@
-body {
-  margin: 0;
-}
-
-
-polyline {
-  stroke: #999;
-  fill: transparent;
-}
+@import "general.sass";
+@import "svg.sass";
