@@ -4,7 +4,7 @@ Grid = require './Grid'
 
 
 # Constants
-RATIO = 1 / 50
+RATIO = 1 / 10
 
 
 # Init

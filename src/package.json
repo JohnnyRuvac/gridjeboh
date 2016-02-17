@@ -42,6 +42,7 @@
     }
   },
   "dependencies": {
-    "eventemitter3": "^1.1.1"
+    "eventemitter3": "^1.1.1",
+    "jquery.hotkeys": "^0.1.0"
   }
 }

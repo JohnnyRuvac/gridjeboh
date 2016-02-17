@@ -67,6 +67,10 @@ module.exports = class Grid
     console.log 'drew ' + i * j + ' shapes, took: ' + took + 'ms'
 
 
+  clear: =>
+    $('svg .filled').removeClass('filled')
+
+
   markActive: (id) ->
     $('#' + id).addClass('filled')
 
@@ -74,6 +78,9 @@ module.exports = class Grid
   prepareEvents: () ->
     # Listen to mark active request
     @ee.on 'markActive', @markActive
+
+    # Clear all
+    @ee.on 'clearGridRequested', @clear
 
     # paint shapes with mouse down & hover
     @svg.mousedown () =>

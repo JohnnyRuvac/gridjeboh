@@ -1,5 +1,10 @@
+hotkeys = require '../../../node_modules/jquery.hotkeys'
+
+
 module.exports = class Storage
   constructor: (@ee) ->
+
+    @prepareHistory()
 
     @ee.on 'triangleAdded', @addTriangle
     @ee.on 'triangleRemoved', @removeTriangle
@@ -11,6 +16,7 @@ module.exports = class Storage
     else 
       @data = {}
       @save()
+
 
 
   addTriangle: (x, y, type) =>
@@ -51,6 +57,9 @@ module.exports = class Storage
 
 
   save: =>
+    @history.push window.localStorage.getItem 'drawing'
+    @index++
+    
     window.localStorage.setItem 'drawing', JSON.stringify( @data )
     # console.log 'saving data: '
     # console.log @data
@@ -76,3 +85,31 @@ module.exports = class Storage
           id = 'c' + column + 'r' + row + 'i'
           # console.log 'id: ' + id
           @ee.emit 'markActive', id
+
+
+  prepareHistory: ->
+    
+    @history = []
+    @index = 0
+
+    $(document).bind 'keydown', 'z', @undo
+    $(document).bind 'keydown', 'x', @redo
+
+
+  undo: =>
+    console.log 'undo'
+
+    @index-- if @index > 0
+
+    stringData = @history[ @index ]
+
+    window.localStorage.setItem 'drawing', stringData
+    @data = JSON.parse( stringData )
+
+    @ee.emit 'clearGridRequested'
+
+    @draw()
+
+
+  redo: =>
+    console.log 'redo'
