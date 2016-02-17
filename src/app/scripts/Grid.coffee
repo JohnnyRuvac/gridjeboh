@@ -5,6 +5,14 @@ Triangle = require './Shapes/Triangle'
 module.exports = class Grid
   constructor: (@ee, RATIO) ->
 
+    @draw(RATIO)
+
+    # Listen to mark active request
+    @ee.on 'markActive', @markActive
+
+
+
+  draw: (RATIO) ->
     ww = window.innerWidth
     wh = window.innerHeight
     unit = ww * RATIO
@@ -54,9 +62,6 @@ module.exports = class Grid
     took = endTime - startTime
     console.log 'drew ' + i * j + ' shapes, took: ' + took + 'ms'
 
-
-    # Listen to mark active request
-    @ee.on 'markActive', @markActive
 
 
   markActive: (id) ->
