@@ -3,27 +3,33 @@ Triangle = require './Shapes/Triangle'
 
 
 module.exports = class Grid
-  constructor: (@ee, RATIO) ->
+  constructor: (@ee, @RATIO) ->
+
+    # Init svg element
+    @svg = Snap(0, 0)
+    @svgElem = $( @svg.node )
 
     # Draw whole grid
-    @draw(RATIO)
+    @draw(@RATIO)
     @prepareEvents()
 
+    # window resize
+    $(window).on 'debouncedresize', @handleResize
 
-  draw: (RATIO) ->
+
+  draw: () ->
     ww = window.innerWidth
     wh = window.innerHeight
-    unit = ww * RATIO
+    unit = ww * @RATIO
     # console.log 'unit: ' + unit
 
-    @svg = Snap(ww, wh)
+    @svgElem.width( ww ).height( wh )
 
     pos =
       x: 0
       y: 0
 
-
-    countX = 1 / RATIO + 1
+    countX = 1 / @RATIO + 1
     triangleHeight = Helpers.pytagoras( unit, unit / 2 )
     countY =  wh / triangleHeight + 1
 
@@ -65,7 +71,7 @@ module.exports = class Grid
     $('#' + id).addClass('filled')
 
 
-  prepareEvents: ->
+  prepareEvents: () ->
     # Listen to mark active request
     @ee.on 'markActive', @markActive
 
@@ -77,3 +83,8 @@ module.exports = class Grid
     @svg.mouseup () =>
       console.log 'mouseup'
       @ee.emit 'gridMouseup'
+
+
+  handleResize: () =>
+    @svg.clear()
+    @draw()

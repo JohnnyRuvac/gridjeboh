@@ -3,5 +3,6 @@
   - event emitter
   - local storage
   - drag to draw
-- resize window
+  - resize window
+- undo
 - draw only shapes, not whole grid
