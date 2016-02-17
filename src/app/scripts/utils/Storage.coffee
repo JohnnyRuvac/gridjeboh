@@ -15,7 +15,7 @@ module.exports = class Storage
 
   addTriangle: (x, y, type) =>
     
-    console.log @data
+    # console.log @data
 
     if !@data[x]
       @data[x] = {}
@@ -28,12 +28,17 @@ module.exports = class Storage
     else
       @data[x][y].normal = true
 
+    id = 'c' + x + 'r' + y
+    id += 'i' if type is 'inverse'
+    # console.log 'id: ' + id
+
     @save()
-    console.log 'added ' + x + ', ' + y + ', ' + type
+    # console.log 'added ' + x + ', ' + y + ', ' + type
+    # console.log @data
 
 
   removeTriangle: (x, y, type) =>
-    console.log 'removed ' + x + ', ' + y + ', ' + type
+    # console.log 'removed ' + x + ', ' + y + ', ' + type
     delete @data[x][y][type]
     
     if Object.keys( @data[x][y] ).length is 0
@@ -47,9 +52,9 @@ module.exports = class Storage
 
   save: =>
     window.localStorage.setItem 'drawing', JSON.stringify( @data )
-    console.log 'saving data: '
-    console.log @data
-    console.log window.localStorage.drawing
+    # console.log 'saving data: '
+    # console.log @data
+    # console.log window.localStorage.drawing
 
 
   load: ->
@@ -57,6 +62,17 @@ module.exports = class Storage
 
 
   draw: ->
+    
     for column, rows of @data
-      for row of rows
-        console.log '[' + column + '][' + row + '] = ' + @data[column][row]
+      for row, shape of rows
+        
+        # check for both types: normal/inverse triangle
+        if shape.normal
+          id = 'c' + column + 'r' + row
+          # console.log 'id: ' + id
+          @ee.emit 'markActive', id
+
+        if shape.inverse
+          id = 'c' + column + 'r' + row + 'i'
+          # console.log 'id: ' + id
+          @ee.emit 'markActive', id
