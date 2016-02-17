@@ -5,11 +5,9 @@ Triangle = require './Shapes/Triangle'
 module.exports = class Grid
   constructor: (@ee, RATIO) ->
 
+    # Draw whole grid
     @draw(RATIO)
-
-    # Listen to mark active request
-    @ee.on 'markActive', @markActive
-
+    @prepareEvents()
 
 
   draw: (RATIO) ->
@@ -63,6 +61,19 @@ module.exports = class Grid
     console.log 'drew ' + i * j + ' shapes, took: ' + took + 'ms'
 
 
-
   markActive: (id) ->
     $('#' + id).addClass('filled')
+
+
+  prepareEvents: ->
+    # Listen to mark active request
+    @ee.on 'markActive', @markActive
+
+    # paint shapes with mouse down & hover
+    @svg.mousedown () =>
+      console.log 'mousedown'
+      @ee.emit 'gridMousedown'
+
+    @svg.mouseup () =>
+      console.log 'mouseup'
+      @ee.emit 'gridMouseup'

@@ -2,6 +2,6 @@
   - click position to shape calc
   - event emitter
   - local storage
-- drag to draw
+  - drag to draw
 - resize window
 - draw only shapes, not whole grid

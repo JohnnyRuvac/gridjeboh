@@ -3,14 +3,18 @@ Helpers = require '../utils/Helpers'
 
 
 module.exports = class Triangle extends Shape
-  constructor: (@ee, @svg, @pos, @width, @column, @row, type) ->
+  constructor: (@ee, @svg, @pos, @width, @column, @row, @type) ->
     super()
+    @draw()
+    @prepareEvents()
 
+
+  draw: ->
     # get shorter side length
     height = Helpers.pytagoras( @width, @width / 2 )
 
     # Calculate points
-    if type is 'inverse'
+    if @type is 'inverse'
       points = [
         @pos.x + @width / 2, @pos.y
         @pos.x + @width / 2 + @width, @pos.y
@@ -32,20 +36,33 @@ module.exports = class Triangle extends Shape
 
     # Add ID for later reference
     id = 'c' + @column + 'r' + @row
-    if type is 'inverse'
+    if @type is 'inverse'
       id += 'i'
 
     @element.attr 'id', id
 
 
-    # Click
-    @element.click () =>
-      @element.toggleClass 'filled'
-      filled = @element.hasClass 'filled'
+  toggle: =>
+    @element.toggleClass 'filled'
+    filled = @element.hasClass 'filled'
 
-      if filled
-        @ee.emit 'triangleAdded', @column, @row, type
+    if filled
+      @ee.emit 'triangleAdded', @column, @row, @type
 
-      else
-        @ee.emit 'triangleRemoved', @column, @row, type
+    else
+      @ee.emit 'triangleRemoved', @column, @row, @type
+
+
+  # Paint on mousedown & hover
+  prepareEvents: ->
+    @element.mousedown @toggle
+
+    @ee.on 'gridMousedown', () =>
+      # console.log 'activate hover'
+      @element.hover @toggle
+
+
+    @ee.on 'gridMouseup', () =>
+      # console.log 'deactivate hover'
+      @element.unhover @toggle
 
