@@ -4,5 +4,5 @@
   - local storage
   - drag to draw
   - resize window
-- undo
+- undo & redo fix
 - draw only shapes, not whole grid

@@ -84,11 +84,9 @@ module.exports = class Grid
 
     # paint shapes with mouse down & hover
     @svg.mousedown () =>
-      console.log 'mousedown'
       @ee.emit 'gridMousedown'
 
     @svg.mouseup () =>
-      console.log 'mouseup'
       @ee.emit 'gridMouseup'
 
 

@@ -1,8 +1,24 @@
+#svg
+  perspective: 600px
 
 polyline
   stroke: #999
-  stroke-width: 1
+  stroke-width: 0.25px
   fill: transparent
+  transform: translate3d(0,0,0) rotateX(0)
+  transform-style: preserve-3d
+  backface-visibility: hidden
+  
 
-  &.filled
-    fill: #999
+
+@keyframes SPIN
+  from
+    transform: rotateX(0) //translate3d(0,0,0)
+  to
+    transform: rotateX(360deg) //translate3d(0,0,100px)
+
+
+.filled
+  fill: #999
+  transform-origin: 50% 50%
+  animation: SPIN 3s infinite

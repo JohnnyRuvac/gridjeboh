@@ -15,7 +15,6 @@ module.exports = class Storage
     
     else 
       @data = {}
-      @save()
 
 
 
@@ -57,13 +56,19 @@ module.exports = class Storage
 
 
   save: =>
-    @history.push window.localStorage.getItem 'drawing'
+    # after save when undo, set history to this point
+    if @index < @history.length - 1
+      @history = @history.slice( 0, @index + 1 )
+
+    currentState = window.localStorage.getItem 'drawing'
+
+    if !currentState?
+      currentState = "{}"
+      
     @index++
     
-    window.localStorage.setItem 'drawing', JSON.stringify( @data )
-    # console.log 'saving data: '
-    # console.log @data
-    # console.log window.localStorage.drawing
+    if Object.keys(@data).length > 0
+      window.localStorage.setItem 'drawing', JSON.stringify( @data )
 
 
   load: ->
@@ -96,12 +101,11 @@ module.exports = class Storage
     $(document).bind 'keydown', 'x', @redo
 
 
-  undo: =>
-    console.log 'undo'
-
-    @index-- if @index > 0
-
+  changeHistory: =>
     stringData = @history[ @index ]
+
+    if !stringData?
+      stringData = "{}"
 
     window.localStorage.setItem 'drawing', stringData
     @data = JSON.parse( stringData )
@@ -111,5 +115,21 @@ module.exports = class Storage
     @draw()
 
 
+  undo: =>
+    console.log 'undo'
+
+    # only if there are steps back
+    if @index <= 0 then return
+
+    @index--
+    
+    @changeHistory()
+
+
   redo: =>
     console.log 'redo'
+
+    # only if there are steps forward
+    if @index >= @history.length - 1 then return
+      
+    @index++
