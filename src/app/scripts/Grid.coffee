@@ -13,11 +13,15 @@ module.exports = class Grid
     @draw(@RATIO)
     @prepareEvents()
 
+    # @prepareAnimation()
+
     # window resize
     $(window).on 'debouncedresize', @handleResize
 
 
   draw: () ->
+    @shapes = []
+
     ww = window.innerWidth
     wh = window.innerHeight
     unit = ww * @RATIO
@@ -52,6 +56,9 @@ module.exports = class Grid
         # draw triangle
         triangle = new Triangle @ee, @svg, pos, unit, j, i, 'normal'
 
+        # add to all shapes
+        @shapes.push triangle.element.node
+
         # position of inverse triangle
         pos2 = 
           x: unit / 2 * (j + 1)
@@ -59,6 +66,9 @@ module.exports = class Grid
 
         # draw inverse triangle
         triangle = new Triangle @ee, @svg, pos, unit, j, i, 'inverse'
+
+        # add to all shapes
+        @shapes.push triangle.element.node
 
 
 
@@ -93,3 +103,20 @@ module.exports = class Grid
   handleResize: () =>
     @svg.clear()
     @draw()
+
+
+  prepareAnimation: () ->
+    shapes = @shapes.reverse()
+    
+    for shape in shapes
+      
+      time = Math.random() / 1
+      
+      props =
+        # y: window.innerHeight + 100
+        opacity: 0
+        delay: Math.random() / 3
+        ease: Power2.easeIn
+
+      TweenLite.to shape, time, props
+    
