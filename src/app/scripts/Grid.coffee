@@ -14,6 +14,7 @@ module.exports = class Grid
     @prepareEvents()
 
     # @prepareAnimation()
+    # @drawAnimation()
 
     # window resize
     $(window).on 'debouncedresize', @handleResize
@@ -119,4 +120,20 @@ module.exports = class Grid
         ease: Power2.easeIn
 
       TweenLite.to shape, time, props
+
+
+  drawAnimation: () ->
+    shapes = @shapes.reverse()
     
+    for shape in shapes
+      
+      time = Math.random() * 10
+      
+      props =
+        # y: window.innerHeight + 100
+        # opacity: 0
+        drawSVG: 0
+        delay: Math.random() / 3
+        ease: Power2.easeIn
+
+      TweenLite.from shape, time, props    

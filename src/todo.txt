@@ -4,5 +4,15 @@
   - local storage
   - drag to draw
   - resize window
-- undo & redo fix
+
+
+29.2.16:
+- rotate grid
 - draw only shapes, not whole grid
+
+
+
+
+**
+Later:
+- undo & redo fix
