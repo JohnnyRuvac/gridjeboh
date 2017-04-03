@@ -1,13 +1,17 @@
+$dark: #3B3B3B
+$light: #F0F0F0
+
+
 body
-  background-color: #121212
+  background-color: $light
 
 #svg
   perspective: 600px
 
-polyline
-  stroke: rgba(252,252,252,0.3)
-  stroke-width: 0.25px
-  fill: transparent
+polygon
+  stroke: $dark
+  stroke-width: 1px
+  fill: $dark
   transform: translate3d(0,0,0) rotateX(0)
   transform-style: preserve-3d
   backface-visibility: hidden

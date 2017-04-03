@@ -31,7 +31,7 @@ module.exports = class Triangle extends Shape
       ]
 
     # Create element
-    @element = @svg.polyline points
+    @element = @svg.polygon points
 
 
     # Add ID for later reference

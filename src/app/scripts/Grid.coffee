@@ -16,8 +16,36 @@ module.exports = class Grid
     # @prepareAnimation()
     # @drawAnimation()
 
+    # @fadeAnimation()
+    @marchAnim()
+
     # window resize
     $(window).on 'debouncedresize', @handleResize
+
+
+  marchAnim: () ->
+    tl = new TimelineMax 
+      paused: true
+
+    for row, index in @shapes
+      subTl = new TimelineMax()
+
+      props =
+        opacity: 0
+        ease: Power2.easeIn
+        # delay: 0.3 * index
+
+      for shape, index2 in row
+        props.delay = Math.random() * index / 24
+        subTl.from shape, Math.random() / 2, props, Math.random() / 12
+      
+      tl.staggerFrom subTl, 0.6, props, Math.random() / 6
+
+    setTimeout () =>
+      tl.play()
+    , 1000
+
+
 
 
   draw: () ->
@@ -44,6 +72,7 @@ module.exports = class Grid
     startTime = new Date()
 
     for i in [0...countY] by 1
+      row = []
       for j in [0...countX] by 1
 
         pos = 
@@ -58,7 +87,7 @@ module.exports = class Grid
         triangle = new Triangle @ee, @svg, pos, unit, j, i, 'normal'
 
         # add to all shapes
-        @shapes.push triangle.element.node
+        row.push triangle.element.node
 
         # position of inverse triangle
         pos2 = 
@@ -69,7 +98,9 @@ module.exports = class Grid
         triangle = new Triangle @ee, @svg, pos, unit, j, i, 'inverse'
 
         # add to all shapes
-        @shapes.push triangle.element.node
+        row.push triangle.element.node
+
+      @shapes.push row
 
 
 
@@ -136,4 +167,16 @@ module.exports = class Grid
         delay: Math.random() / 3
         ease: Power2.easeIn
 
-      TweenLite.from shape, time, props    
+      TweenLite.from shape, time, props
+
+
+  fadeAnimation: () ->
+    for shape in @shapes
+      time = Math.random() / 2
+      props =
+        opacity: 0
+        delay: Math.random() / 3
+        ease: Power2.easeIn
+
+      TweenLite.from shape, time, props
+
