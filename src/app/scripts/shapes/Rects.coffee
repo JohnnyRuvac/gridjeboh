@@ -42,9 +42,11 @@ module.exports = class Rects
     tl = new TimelineMax
       yoyo: true
       repeat: -1
-      repeatDelay: Math.random()
+      repeatDelay: Math.random() * 2
       paused: true
       # ease: Power1.easeInOut
+
+    tl.timeScale 0.1
 
     for i in [1..count]
       rect = @svg.rect offset, offset, width, width
@@ -52,7 +54,7 @@ module.exports = class Rects
 
       time = Math.random() / 6 + 0.3
 
-      if i is 1 then TweenLite.to rect.node, time, {opacity: 1}
+      if i is 1 then TweenLite.to rect.node, time, { opacity: 1 }
 
       props =
         opacity: 1
