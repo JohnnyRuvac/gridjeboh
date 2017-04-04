@@ -16,5 +16,10 @@ RATIO = 1 / 30
 
 # squareGrid = SquareGrid(RATIO)
 
+ww = window.innerWidth
+wh = window.innerHeight
 
-rects = new Rects 375, 0, 16
+w = if ww > wh then wh / 4 else ww / 4
+count = if ww < 1024 then 4 else 8
+
+rects = new Rects w, 0, count
